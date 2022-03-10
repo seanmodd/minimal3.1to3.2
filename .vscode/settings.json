@@ -1,4 +1,12 @@
 {
   "javascript.validate.enable": false,
   "typescript.validate.enable": false,
+  "workbench.colorCustomizations": {
+    "editorError.foreground": "#00000000",
+    "editorWarning.foreground": "#00000000",
+    "editorInfo.foreground": "#00000000",
+    "activityBar.background": "#21311E",
+    "titleBar.activeBackground": "#2E452B",
+    "titleBar.activeForeground": "#F8FAF7"
+  },
 }
