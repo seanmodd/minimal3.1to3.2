@@ -94,7 +94,7 @@ export default function BlogPosts() {
             { name: 'Posts' },
           ]}
           action={
-            <NextLink href={PATH_DASHBOARD.blog.newPost} passHref>
+            <NextLink href={PATH_DASHBOARD.blog.new} passHref>
               <Button variant="contained" startIcon={<Iconify icon={'eva:plus-fill'} />}>
                 New Post
               </Button>

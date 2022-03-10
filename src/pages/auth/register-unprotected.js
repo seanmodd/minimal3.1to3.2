@@ -65,6 +65,7 @@ export default function Register() {
   const { method } = useAuth();
 
   const smUp = useResponsive('up', 'sm');
+
   const mdUp = useResponsive('up', 'md');
 
   return (
@@ -88,6 +89,8 @@ export default function Register() {
               Manage the job more effectively with Minimal
             </Typography>
             <Image
+              visibleByDefault
+              disabledEffect
               alt="register"
               src="https://minimal-assets-api.vercel.app/assets/illustrations/illustration_register.png"
             />

@@ -1,10 +1,11 @@
-import { useState } from 'react';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Box, Tab, Tabs, Container } from '@mui/material';
 import { TabContext, TabList, TabPanel, Masonry } from '@mui/lab';
 // routes
 import { PATH_PAGE } from '../../../routes/paths';
+// hooks
+import useTabs from '../../../hooks/useTabs';
 // layouts
 import Layout from '../../../layouts';
 // components
@@ -93,17 +94,9 @@ MUITabs.getLayout = function getLayout(page) {
 // ----------------------------------------------------------------------
 
 export default function MUITabs() {
-  const [value, setValue] = useState('1');
+  const { currentTab, onChangeTab } = useTabs('1');
 
-  const [valueScrollable, setValueScrollable] = useState('1');
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const handleChangeScrollable = (event, newValue) => {
-    setValueScrollable(newValue);
-  };
+  const { currentTab: scrollable, onChangeTab: onScrollable } = useTabs('1');
 
   return (
     <Page title="Components: Tabs">
@@ -128,8 +121,8 @@ export default function MUITabs() {
         <Container>
           <Masonry columns={{ xs: 1, md: 2 }} spacing={3}>
             <Block title="Text" sx={style}>
-              <TabContext value={value}>
-                <TabList onChange={handleChange}>
+              <TabContext value={currentTab}>
+                <TabList onChange={onChangeTab}>
                   {SIMPLE_TAB.map((tab, index) => (
                     <Tab key={tab.value} label={tab.label} value={String(index + 1)} />
                   ))}
@@ -154,7 +147,7 @@ export default function MUITabs() {
             </Block>
 
             <Block title="Icon" sx={style}>
-              <Tabs value={value} onChange={handleChange}>
+              <Tabs value={currentTab} onChange={onChangeTab}>
                 {SIMPLE_TAB.map((tab) => (
                   <Tab key={tab.value} icon={tab.icon} value={tab.value} />
                 ))}
@@ -162,8 +155,8 @@ export default function MUITabs() {
             </Block>
 
             <Block title="Text & Icon" sx={style}>
-              <TabContext value={value}>
-                <TabList onChange={handleChange}>
+              <TabContext value={currentTab}>
+                <TabList onChange={onChangeTab}>
                   {SIMPLE_TAB.map((tab) => (
                     <Tab key={tab.value} icon={tab.icon} label={tab.label} value={tab.value} disabled={tab.disabled} />
                   ))}
@@ -181,10 +174,10 @@ export default function MUITabs() {
               >
                 <Tabs
                   allowScrollButtonsMobile
-                  value={valueScrollable}
+                  value={scrollable}
                   variant="scrollable"
                   scrollButtons="auto"
-                  onChange={handleChangeScrollable}
+                  onChange={onScrollable}
                 >
                   {SCROLLABLE_TAB.map((tab) => (
                     <Tab key={tab.value} label={tab.label} value={tab.value} />

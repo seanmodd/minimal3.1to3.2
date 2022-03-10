@@ -18,6 +18,7 @@ import { MotionViewport, varFade } from '../../components/animate';
 
 export default function AboutTeam() {
   const carouselRef = useRef(null);
+
   const theme = useTheme();
 
   const settings = {

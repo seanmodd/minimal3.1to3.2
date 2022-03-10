@@ -1,6 +1,7 @@
-import { useState } from 'react';
 // @mui
 import { Table, TableRow, TableHead, TableBody, TableCell, TableContainer, TablePagination } from '@mui/material';
+// hooks
+import useTable from '../../../../hooks/useTable';
 // components
 import Scrollbar from '../../../../components/Scrollbar';
 
@@ -11,7 +12,7 @@ function createData(name, code, population, size) {
   return { name, code, population, size, density };
 }
 
-const GROUPING_TABLE = [
+const TABLE_DATA = [
   createData('India', 'IN', 1324171354, 3287263),
   createData('China', 'CN', 1403500365, 9596961),
   createData('Italy', 'IT', 60483973, 301340),
@@ -58,17 +59,13 @@ const COLUMNS = [
 // ----------------------------------------------------------------------
 
 export default function GroupingFixedHeader() {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+  const {
+    page,
+    rowsPerPage,
+    //
+    onChangePage,
+    onChangeRowsPerPage,
+  } = useTable({ defaultRowsPerPage: 10 });
 
   return (
     <>
@@ -90,6 +87,7 @@ export default function GroupingFixedHeader() {
                   Details
                 </TableCell>
               </TableRow>
+
               <TableRow>
                 {COLUMNS.map((column) => (
                   <TableCell key={column.id} align={column.align} style={{ top: 56, minWidth: column.minWidth }}>
@@ -100,7 +98,7 @@ export default function GroupingFixedHeader() {
             </TableHead>
 
             <TableBody>
-              {GROUPING_TABLE.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+              {TABLE_DATA.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                   {COLUMNS.map((column) => {
                     const value = row[column.id];
@@ -118,13 +116,13 @@ export default function GroupingFixedHeader() {
       </Scrollbar>
 
       <TablePagination
-        page={page}
+        rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={GROUPING_TABLE.length}
+        count={TABLE_DATA.length}
         rowsPerPage={rowsPerPage}
-        onPageChange={handleChangePage}
-        rowsPerPageOptions={[10, 25, 100]}
-        onRowsPerPageChange={handleChangeRowsPerPage}
+        page={page}
+        onPageChange={onChangePage}
+        onRowsPerPageChange={onChangeRowsPerPage}
       />
     </>
   );

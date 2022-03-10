@@ -1,7 +1,17 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 // @mui
-import { Box, Table, Collapse, TableRow, TableHead, TableBody, TableCell, Typography, IconButton } from '@mui/material';
+import {
+  Paper,
+  Table,
+  Collapse,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+  Typography,
+  IconButton,
+} from '@mui/material';
 // components
 import Iconify from '../../../../../components/Iconify';
 
@@ -34,7 +44,7 @@ export default function CollapsibleTableRow(props) {
     <>
       <TableRow>
         <TableCell>
-          <IconButton size="small" onClick={() => setOpen(!open)}>
+          <IconButton size="small" color={open ? 'primary' : 'default'} onClick={() => setOpen(!open)}>
             <Iconify icon={open ? 'eva:arrow-ios-upward-fill' : 'eva:arrow-ios-downward-fill'} />
           </IconButton>
         </TableCell>
@@ -47,10 +57,10 @@ export default function CollapsibleTableRow(props) {
         <TableCell align="right">{row.protein}</TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell sx={{ py: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
+            <Paper sx={{ px: 1, py: 2, borderRadius: 1.5, boxShadow: (theme) => theme.customShadows.z8 }}>
+              <Typography variant="h6" sx={{ m: 2, mt: 0 }}>
                 History
               </Typography>
               <Table size="small" aria-label="purchases">
@@ -75,7 +85,7 @@ export default function CollapsibleTableRow(props) {
                   ))}
                 </TableBody>
               </Table>
-            </Box>
+            </Paper>
           </Collapse>
         </TableCell>
       </TableRow>

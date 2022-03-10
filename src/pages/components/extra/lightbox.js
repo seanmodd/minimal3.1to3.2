@@ -33,6 +33,7 @@ DemoLightbox.getLayout = function getLayout(page) {
 
 export default function DemoLightbox() {
   const [openLightbox, setOpenLightbox] = useState(false);
+
   const [selectedImage, setSelectedImage] = useState(0);
 
   const handleOpenLightbox = (url) => {

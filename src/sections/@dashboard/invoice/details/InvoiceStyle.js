@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
     fontSize: 8,
     marginBottom: 8,
     fontWeight: 700,
-    letterSpacing: 1.2,
     textTransform: 'uppercase',
   },
   h3: { fontSize: 16, fontWeight: 700 },

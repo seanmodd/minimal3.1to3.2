@@ -65,6 +65,7 @@ export default function Login() {
   const { method } = useAuth();
 
   const smUp = useResponsive('up', 'sm');
+
   const mdUp = useResponsive('up', 'md');
 
   return (
@@ -88,6 +89,8 @@ export default function Login() {
               Hi, Welcome Back
             </Typography>
             <Image
+              visibleByDefault
+              disabledEffect
               src="https://minimal-assets-api.vercel.app/assets/illustrations/illustration_login.png"
               alt="login"
             />

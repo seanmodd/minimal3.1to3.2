@@ -4,18 +4,23 @@ import {
   Box,
   Table,
   Switch,
+  Tooltip,
   Checkbox,
   TableRow,
   TableBody,
   TableCell,
+  IconButton,
   TableContainer,
   TablePagination,
   FormControlLabel,
 } from '@mui/material';
+// hooks
+import useTable, { getComparator, emptyRows } from '../../../../../hooks/useTable';
 // components
+import Iconify from '../../../../../components/Iconify';
 import Scrollbar from '../../../../../components/Scrollbar';
+import { TableEmptyRows, TableHeadCustom, TableSelectedActions } from '../../../../../components/table';
 //
-import SortingSelectingHead from './SortingSelectingHead';
 import SortingSelectingToolbar from './SortingSelectingToolbar';
 
 // ----------------------------------------------------------------------
@@ -24,7 +29,7 @@ function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-const SORTING_SELECTING_TABLE = [
+const TABLE_DATA = [
   createData('Cupcake', 305, 3.7, 67, 4.3),
   createData('Donut', 452, 25.0, 51, 4.9),
   createData('Eclair', 262, 16.0, 24, 6.0),
@@ -37,183 +42,110 @@ const SORTING_SELECTING_TABLE = [
   createData('Lollipop', 392, 0.2, 98, 0.0),
   createData('Marshmallow', 318, 0, 81, 2.0),
   createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
 ];
 
 const TABLE_HEAD = [
-  {
-    id: 'name',
-    numeric: false,
-    disablePadding: true,
-    label: 'Dessert (100g serving)',
-  },
-  {
-    id: 'calories',
-    numeric: true,
-    disablePadding: false,
-    label: 'Calories',
-  },
-  {
-    id: 'fat',
-    numeric: true,
-    disablePadding: false,
-    label: 'Fat (g)',
-  },
-  {
-    id: 'carbs',
-    numeric: true,
-    disablePadding: false,
-    label: 'Carbs (g)',
-  },
-  {
-    id: 'protein',
-    numeric: true,
-    disablePadding: false,
-    label: 'Protein (g)',
-  },
+  { id: 'name', label: 'Dessert (100g serving)', align: 'left' },
+  { id: 'calories', label: 'Calories', align: 'center' },
+  { id: 'fat', label: 'Fat (g)', align: 'center' },
+  { id: 'carbs', label: 'Carbs (g)', align: 'center' },
+  { id: 'protein', label: 'Protein (g)', align: 'center' },
 ];
 
 // ----------------------------------------------------------------------
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
 export default function SortingSelecting() {
-  const [order, setOrder] = useState('asc');
+  const {
+    dense,
+    page,
+    order,
+    orderBy,
+    rowsPerPage,
+    //
+    selected,
+    onSelectRow,
+    onSelectAllRows,
+    //
+    onSort,
+    onChangeDense,
+    onChangePage,
+    onChangeRowsPerPage,
+  } = useTable({
+    defaultOrderBy: 'calories',
+  });
 
-  const [orderBy, setOrderBy] = useState('calories');
+  const [tableData, setTableData] = useState(TABLE_DATA);
 
-  const [selected, setSelected] = useState([]);
+  console.log('setTableData', setTableData);
 
-  const [page, setPage] = useState(0);
-
-  const [dense, setDense] = useState(false);
-
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  const handleRequestSort = (property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (checked) => {
-    if (checked) {
-      const newSelecteds = SORTING_SELECTING_TABLE.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-    setSelected(newSelected);
-  };
-
-  const handleChangePage = (newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const isSelected = (name) => selected.indexOf(name) !== -1;
-
-  // Avoid a layout jump when reaching the last page with empty SORTING_SELECTING_TABLE.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - SORTING_SELECTING_TABLE.length) : 0;
+  const dataFiltered = applySortFilter({
+    tableData,
+    comparator: getComparator(order, orderBy),
+  });
 
   return (
     <div>
-      <SortingSelectingToolbar numSelected={selected.length} />
+      <SortingSelectingToolbar />
 
       <Scrollbar>
-        <TableContainer sx={{ minWidth: 800 }}>
+        <TableContainer sx={{ minWidth: 800, position: 'relative' }}>
+          {selected.length > 0 && (
+            <TableSelectedActions
+              dense={dense}
+              numSelected={selected.length}
+              rowCount={tableData.length}
+              onSelectAllRows={(checked) =>
+                onSelectAllRows(
+                  checked,
+                  tableData.map((row) => row.name)
+                )
+              }
+              actions={
+                <Tooltip title="Delete">
+                  <IconButton color="primary">
+                    <Iconify icon={'eva:trash-2-outline'} />
+                  </IconButton>
+                </Tooltip>
+              }
+            />
+          )}
+
           <Table size={dense ? 'small' : 'medium'}>
-            <SortingSelectingHead
+            <TableHeadCustom
               order={order}
               orderBy={orderBy}
               headLabel={TABLE_HEAD}
+              rowCount={tableData.length}
               numSelected={selected.length}
-              onRequestSort={handleRequestSort}
-              rowCount={SORTING_SELECTING_TABLE.length}
-              onSelectAllClick={handleSelectAllClick}
+              onSort={onSort}
+              onSelectAllRows={(checked) =>
+                onSelectAllRows(
+                  checked,
+                  tableData.map((row) => row.name)
+                )
+              }
             />
-            <TableBody>
-              {stableSort(SORTING_SELECTING_TABLE, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={() => handleClick(row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.name}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isItemSelected} />
-                      </TableCell>
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
+            <TableBody>
+              {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                 <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
+                  hover
+                  key={row.name}
+                  onClick={() => onSelectRow(row.name)}
+                  selected={selected.includes(row.name)}
                 >
-                  <TableCell colSpan={6} />
+                  <TableCell padding="checkbox">
+                    <Checkbox checked={selected.includes(row.name)} />
+                  </TableCell>
+                  <TableCell> {row.name} </TableCell>
+                  <TableCell align="center">{row.calories}</TableCell>
+                  <TableCell align="center">{row.fat}</TableCell>
+                  <TableCell align="center">{row.carbs}</TableCell>
+                  <TableCell align="center">{row.protein}</TableCell>
                 </TableRow>
-              )}
+              ))}
+
+              <TableEmptyRows height={dense ? 34 : 54} emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
             </TableBody>
           </Table>
         </TableContainer>
@@ -223,26 +155,34 @@ export default function SortingSelecting() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={SORTING_SELECTING_TABLE.length}
+          count={dataFiltered.length}
           rowsPerPage={rowsPerPage}
           page={page}
-          onPageChange={(e, page) => handleChangePage(page)}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+          onPageChange={onChangePage}
+          onRowsPerPageChange={onChangeRowsPerPage}
         />
-        <Box
-          sx={{
-            px: 3,
-            py: 1.5,
-            top: 0,
-            position: { md: 'absolute' },
-          }}
-        >
-          <FormControlLabel
-            control={<Switch checked={dense} onChange={(event) => setDense(event.target.checked)} />}
-            label="Dense padding"
-          />
-        </Box>
+        <FormControlLabel
+          control={<Switch checked={dense} onChange={onChangeDense} />}
+          label="Dense"
+          sx={{ px: 3, py: 1.5, top: 0, position: { md: 'absolute' } }}
+        />
       </Box>
     </div>
   );
+}
+
+// ----------------------------------------------------------------------
+
+function applySortFilter({ tableData, comparator }) {
+  const stabilizedThis = tableData.map((el, index) => [el, index]);
+
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+
+  tableData = stabilizedThis.map((el) => el[0]);
+
+  return tableData;
 }

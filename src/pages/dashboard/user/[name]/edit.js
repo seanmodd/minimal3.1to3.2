@@ -15,7 +15,7 @@ import Layout from '../../../../layouts';
 import Page from '../../../../components/Page';
 import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
 // sections
-import UserNewForm from '../../../../sections/@dashboard/user/UserNewForm';
+import UserNewEditForm from '../../../../sections/@dashboard/user/UserNewEditForm';
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +46,7 @@ export default function UserEdit() {
           ]}
         />
 
-        <UserNewForm isEdit currentUser={currentUser} />
+        <UserNewEditForm isEdit currentUser={currentUser} />
       </Container>
     </Page>
   );

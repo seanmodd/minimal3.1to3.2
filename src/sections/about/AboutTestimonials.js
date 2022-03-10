@@ -180,6 +180,7 @@ TestimonialCard.propTypes = {
 
 function TestimonialCard({ testimonial }) {
   const theme = useTheme();
+
   const { name, rating, dateCreate, content } = testimonial;
 
   return (

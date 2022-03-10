@@ -31,6 +31,7 @@ MUIProgress.getLayout = function getLayout(page) {
 
 export default function MUIProgress() {
   const [progress, setProgress] = useState(0);
+
   const [buffer, setBuffer] = useState(10);
 
   useEffect(() => {

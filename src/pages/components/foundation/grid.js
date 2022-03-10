@@ -38,7 +38,9 @@ FoundationGrid.getLayout = function getLayout(page) {
 
 export default function FoundationGrid() {
   const theme = useTheme();
+
   const [spacing, setSpacing] = useState(2);
+
   const [column, setColumn] = useState(3);
 
   const handleChangeSpacing = (event) => {

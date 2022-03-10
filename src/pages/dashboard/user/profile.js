@@ -7,6 +7,7 @@ import { Tab, Box, Card, Tabs, Container } from '@mui/material';
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // hooks
 import useAuth from '../../../hooks/useAuth';
+import useTabs from '../../../hooks/useTabs';
 import useSettings from '../../../hooks/useSettings';
 // _mock_
 import { _userAbout, _userFeeds, _userFriends, _userGallery, _userFollowers } from '../../../_mock';
@@ -53,14 +54,12 @@ UserProfile.getLayout = function getLayout(page) {
 
 export default function UserProfile() {
   const { themeStretch } = useSettings();
+
   const { user } = useAuth();
 
-  const [currentTab, setCurrentTab] = useState('profile');
-  const [findFriends, setFindFriends] = useState('');
+  const { currentTab, onChangeTab } = useTabs('profile');
 
-  const handleChangeTab = (newValue) => {
-    setCurrentTab(newValue);
-  };
+  const [findFriends, setFindFriends] = useState('');
 
   const handleFindFriends = (value) => {
     setFindFriends(value);
@@ -111,11 +110,11 @@ export default function UserProfile() {
 
           <TabsWrapperStyle>
             <Tabs
-              value={currentTab}
-              scrollButtons="auto"
-              variant="scrollable"
               allowScrollButtonsMobile
-              onChange={(e, value) => handleChangeTab(value)}
+              variant="scrollable"
+              scrollButtons="auto"
+              value={currentTab}
+              onChange={onChangeTab}
             >
               {PROFILE_TABS.map((tab) => (
                 <Tab disableRipple key={tab.value} value={tab.value} icon={tab.icon} label={capitalCase(tab.value)} />

@@ -3,6 +3,8 @@ import NextLink from 'next/link';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Button, Typography, Container } from '@mui/material';
+// layouts
+import Layout from '../layouts';
 // components
 import Page from '../components/Page';
 //
@@ -17,6 +19,12 @@ const RootStyle = styled('div')(({ theme }) => ({
   paddingTop: theme.spacing(15),
   paddingBottom: theme.spacing(10),
 }));
+
+// ----------------------------------------------------------------------
+
+Maintenance.getLayout = function getLayout(page) {
+  return <Layout variant="logoOnly">{page}</Layout>;
+};
 
 // ----------------------------------------------------------------------
 

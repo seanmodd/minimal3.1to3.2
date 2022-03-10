@@ -58,12 +58,12 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-ProductNewForm.propTypes = {
+ProductNewEditForm.propTypes = {
   isEdit: PropTypes.bool,
   currentProduct: PropTypes.object,
 };
 
-export default function ProductNewForm({ isEdit, currentProduct }) {
+export default function ProductNewEditForm({ isEdit, currentProduct }) {
   const { push } = useRouter();
 
   const { enqueueSnackbar } = useSnackbar();

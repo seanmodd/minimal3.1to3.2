@@ -33,6 +33,7 @@ export default function AboutWhat() {
   const isDesktop = useResponsive('up', 'md');
 
   const isLight = theme.palette.mode === 'light';
+
   const shadow = `-40px 40px 80px ${alpha(isLight ? theme.palette.grey[500] : theme.palette.common.black, 0.48)}`;
 
   return (

@@ -86,6 +86,7 @@ const CardStyle = styled(Card)(({ theme }) => {
 
 export default function HomeMinimal() {
   const theme = useTheme();
+
   const isLight = theme.palette.mode === 'light';
 
   return (

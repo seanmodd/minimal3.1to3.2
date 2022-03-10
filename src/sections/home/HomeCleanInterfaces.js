@@ -32,6 +32,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function HomeCleanInterfaces() {
   const theme = useTheme();
+
   const isLight = theme.palette.mode === 'light';
 
   return (
@@ -77,9 +78,7 @@ export default function HomeCleanInterfaces() {
                 disabledEffect
                 visibleByDefault
                 alt={`clean-${index + 1}`}
-                src={`https://minimal-assets-api.vercel.app/assets/images/home/clean-${
-                  index + 1
-                }.png`}
+                src={`https://minimal-assets-api.vercel.app/assets/images/home/clean-${index + 1}.png`}
               />
             </Box>
           ))}

@@ -32,6 +32,7 @@ export default function Mail() {
   const dispatch = useDispatch();
 
   const { query } = useRouter();
+
   const { mailId } = query;
 
   const [openSidebar, setOpenSidebar] = useState(false);

@@ -1,5 +1,5 @@
-// @mui
 import PropTypes from 'prop-types';
+// @mui
 import { styled } from '@mui/material/styles';
 import { Box, Container, Grid, Typography, Stack, Paper } from '@mui/material';
 // routes

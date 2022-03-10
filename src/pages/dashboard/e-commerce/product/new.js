@@ -10,7 +10,7 @@ import Layout from '../../../../layouts';
 import Page from '../../../../components/Page';
 import HeaderBreadcrumbs from '../../../../components/HeaderBreadcrumbs';
 // sections
-import ProductNewForm from '../../../../sections/@dashboard/e-commerce/ProductNewForm';
+import ProductNewEditForm from '../../../../sections/@dashboard/e-commerce/ProductNewEditForm';
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +37,7 @@ export default function EcommerceProductCreate() {
             { name: 'New product' },
           ]}
         />
-        <ProductNewForm />
+        <ProductNewEditForm />
       </Container>
     </Page>
   );

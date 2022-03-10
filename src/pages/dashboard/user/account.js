@@ -1,10 +1,10 @@
 import { capitalCase } from 'change-case';
-import { useState } from 'react';
 // @mui
 import { Container, Tab, Box, Tabs } from '@mui/material';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 // hooks
+import useTabs from '../../../hooks/useTabs';
 import useSettings from '../../../hooks/useSettings';
 // _mock_
 import { _userPayment, _userAddressBook, _userInvoices, _userAbout } from '../../../_mock';
@@ -34,7 +34,7 @@ UserAccount.getLayout = function getLayout(page) {
 export default function UserAccount() {
   const { themeStretch } = useSettings();
 
-  const [currentTab, setCurrentTab] = useState('general');
+  const { currentTab, onChangeTab } = useTabs('general');
 
   const ACCOUNT_TABS = [
     {
@@ -77,11 +77,11 @@ export default function UserAccount() {
         />
 
         <Tabs
-          value={currentTab}
-          scrollButtons="auto"
-          variant="scrollable"
           allowScrollButtonsMobile
-          onChange={(e, value) => setCurrentTab(value)}
+          variant="scrollable"
+          scrollButtons="auto"
+          value={currentTab}
+          onChange={onChangeTab}
         >
           {ACCOUNT_TABS.map((tab) => (
             <Tab disableRipple key={tab.value} label={capitalCase(tab.value)} icon={tab.icon} value={tab.value} />

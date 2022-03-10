@@ -26,6 +26,7 @@ Chat.getLayout = function getLayout(page) {
 
 export default function Chat() {
   const { themeStretch } = useSettings();
+
   const dispatch = useDispatch();
 
   useEffect(() => {

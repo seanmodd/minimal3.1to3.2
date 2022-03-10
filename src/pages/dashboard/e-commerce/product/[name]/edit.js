@@ -17,7 +17,7 @@ import Layout from '../../../../../layouts';
 import Page from '../../../../../components/Page';
 import HeaderBreadcrumbs from '../../../../../components/HeaderBreadcrumbs';
 // sections
-import ProductNewForm from '../../../../../sections/@dashboard/e-commerce/ProductNewForm';
+import ProductNewEditForm from '../../../../../sections/@dashboard/e-commerce/ProductNewEditForm';
 
 // ----------------------------------------------------------------------
 
@@ -59,7 +59,7 @@ export default function EcommerceProductEdit() {
           ]}
         />
 
-        <ProductNewForm isEdit currentProduct={currentProduct} />
+        <ProductNewEditForm isEdit currentProduct={currentProduct} />
       </Container>
     </Page>
   );

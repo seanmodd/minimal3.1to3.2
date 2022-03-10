@@ -50,7 +50,7 @@ export default function ReactHookForm() {
 
   const onSubmit = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 500));
-    alert(
+    console.log(
       JSON.stringify(
         {
           ...data,

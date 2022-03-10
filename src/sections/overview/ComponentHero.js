@@ -56,15 +56,10 @@ export default function ComponentHero() {
 
           <m.div variants={varFade().inUp}>
             <Link
-              href="https://www.sketch.com/s/0fa4699d-a3ff-4cd5-a3a7-d851eb7e17f0"
+              href="https://www.figma.com/file/x7earqGD0VGFjFdk5v2DgZ/%5BPreview%5D-Minimal-Web?node-id=866%3A55474"
               target="_blank"
             >
-              <Stack
-                direction="row"
-                spacing={1}
-                alignItems="center"
-                sx={{ display: 'inline-flex' }}
-              >
+              <Stack direction="row" spacing={1} alignItems="center" sx={{ display: 'inline-flex' }}>
                 <Typography variant="button"> Fast preview</Typography>
                 <Iconify icon={'ic:round-arrow-right-alt'} width={20} height={20} />
               </Stack>
@@ -75,6 +70,8 @@ export default function ComponentHero() {
         {isDesktop && (
           <m.div variants={varFade().inDown}>
             <Image
+              visibleByDefault
+              disabledEffect
               alt="hero"
               src="https://minimal-assets-api.vercel.app/assets/illustrations/illustration_components.png"
               sx={{ maxWidth: 320 }}

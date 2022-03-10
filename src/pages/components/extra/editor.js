@@ -29,6 +29,7 @@ DemoEditor.getLayout = function getLayout(page) {
 
 export default function DemoEditor() {
   const [quillSimple, setQuillSimple] = useState('');
+
   const [quillFull, setQuillFull] = useState('');
 
   return (

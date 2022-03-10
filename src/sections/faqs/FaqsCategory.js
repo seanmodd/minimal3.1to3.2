@@ -1,9 +1,13 @@
 import PropTypes from 'prop-types';
 import { m } from 'framer-motion';
 // @mui
-import { Typography, Box, Paper } from '@mui/material';
+import { Box, Paper, AppBar, Drawer, Button, Toolbar, Divider, Typography, ListItemButton } from '@mui/material';
+// hooks
+import useToggle from '../../hooks/useToggle';
+import useResponsive from '../../hooks/useResponsive';
 // components
 import Image from '../../components/Image';
+import Iconify from '../../components/Iconify';
 import { MotionViewport, varFade } from '../../components/animate';
 
 // ----------------------------------------------------------------------
@@ -44,6 +48,57 @@ const CATEGORIES = [
 // ----------------------------------------------------------------------
 
 export default function FaqsCategory() {
+  const upMd = useResponsive('up', 'md');
+
+  const { toggle: open, onOpen, onClose } = useToggle();
+
+  if (!upMd) {
+    return (
+      <>
+        <AppBar position="absolute" color="transparent" sx={{ top: -120, boxShadow: 0 }}>
+          <Toolbar>
+            <Button startIcon={<Iconify icon="eva:menu-2-fill" />} onClick={onOpen}>
+              Categories
+            </Button>
+          </Toolbar>
+          <Divider />
+        </AppBar>
+
+        <Drawer open={open} onClose={onClose}>
+          <Box
+            sx={{
+              p: 1,
+              display: 'grid',
+              gap: 1,
+              gridTemplateColumns: 'repeat(2, 1fr)',
+            }}
+          >
+            {CATEGORIES.map((category) => (
+              <ListItemButton
+                key={category.label}
+                onClick={onClose}
+                sx={{
+                  py: 2,
+                  maxWidth: 140,
+                  borderRadius: 1,
+                  textAlign: 'center',
+                  typography: 'body2',
+                  alignItems: 'center',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  bgcolor: 'background.neutral',
+                }}
+              >
+                <Image alt={category.icon} src={category.icon} sx={{ width: 48, height: 48, mb: 1 }} />
+                {category.label}
+              </ListItemButton>
+            ))}
+          </Box>
+        </Drawer>
+      </>
+    );
+  }
+
   return (
     <Box
       component={MotionViewport}
@@ -52,8 +107,6 @@ export default function FaqsCategory() {
         display: 'grid',
         gap: 3,
         gridTemplateColumns: {
-          xs: 'repeat(1, 1fr)',
-          sm: 'repeat(2, 1fr)',
           md: 'repeat(3, 1fr)',
           lg: 'repeat(6, 1fr)',
         },

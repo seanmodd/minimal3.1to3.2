@@ -44,6 +44,7 @@ export default function DemoMultiLanguage() {
   const { allLang, currentLang, translate, onChangeLang } = useLocales();
 
   const [page, setPage] = useState(2);
+
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {

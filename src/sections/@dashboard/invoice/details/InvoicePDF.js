@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/alt-text */
 import PropTypes from 'prop-types';
-import sum from 'lodash/sum';
 import { Page, View, Text, Image, Document } from '@react-pdf/renderer';
 // utils
 import { fCurrency } from '../../../../utils/formatNumber';
+import { fDate } from '../../../../utils/formatTime';
 //
 import styles from './InvoiceStyle';
 
@@ -14,11 +14,19 @@ InvoicePDF.propTypes = {
 };
 
 export default function InvoicePDF({ invoice }) {
-  const { id, items, taxes, status, discount, invoiceTo, invoiceFrom } = invoice;
-
-  const subTotal = sum(items.map((item) => item.price * item.qty));
-
-  const total = subTotal - discount + taxes;
+  const {
+    items,
+    taxes,
+    status,
+    dueDate,
+    discount,
+    invoiceTo,
+    createDate,
+    totalPrice,
+    invoiceFrom,
+    invoiceNumber,
+    subTotalPrice,
+  } = invoice;
 
   return (
     <Document>
@@ -27,7 +35,7 @@ export default function InvoicePDF({ invoice }) {
           <Image source="/logo/logo_full.jpg" style={{ height: 32 }} />
           <View style={{ alignItems: 'flex-end', flexDirection: 'column' }}>
             <Text style={styles.h3}>{status}</Text>
-            <Text>INV-{id}</Text>
+            <Text> {invoiceNumber} </Text>
           </View>
         </View>
 
@@ -38,11 +46,23 @@ export default function InvoicePDF({ invoice }) {
             <Text style={styles.body1}>{invoiceFrom.address}</Text>
             <Text style={styles.body1}>{invoiceFrom.phone}</Text>
           </View>
+
           <View style={styles.col6}>
             <Text style={[styles.overline, styles.mb8]}>Invoice to</Text>
             <Text style={styles.body1}>{invoiceTo.name}</Text>
             <Text style={styles.body1}>{invoiceTo.address}</Text>
             <Text style={styles.body1}>{invoiceTo.phone}</Text>
+          </View>
+        </View>
+
+        <View style={[styles.gridContainer, styles.mb40]}>
+          <View style={styles.col6}>
+            <Text style={[styles.overline, styles.mb8]}>Date create</Text>
+            <Text style={styles.body1}>{fDate(createDate)}</Text>
+          </View>
+          <View style={styles.col6}>
+            <Text style={[styles.overline, styles.mb8]}>Due date</Text>
+            <Text style={styles.body1}>{fDate(dueDate)}</Text>
           </View>
         </View>
 
@@ -54,15 +74,19 @@ export default function InvoicePDF({ invoice }) {
               <View style={styles.tableCell_1}>
                 <Text style={styles.subtitle2}>#</Text>
               </View>
+
               <View style={styles.tableCell_2}>
                 <Text style={styles.subtitle2}>Description</Text>
               </View>
+
               <View style={styles.tableCell_3}>
                 <Text style={styles.subtitle2}>Qty</Text>
               </View>
+
               <View style={styles.tableCell_3}>
                 <Text style={styles.subtitle2}>Unit price</Text>
               </View>
+
               <View style={[styles.tableCell_3, styles.alignRight]}>
                 <Text style={styles.subtitle2}>Total</Text>
               </View>
@@ -75,18 +99,22 @@ export default function InvoicePDF({ invoice }) {
                 <View style={styles.tableCell_1}>
                   <Text>{index + 1}</Text>
                 </View>
+
                 <View style={styles.tableCell_2}>
                   <Text style={styles.subtitle2}>{item.title}</Text>
                   <Text>{item.description}</Text>
                 </View>
+
                 <View style={styles.tableCell_3}>
-                  <Text>{item.qty}</Text>
+                  <Text>{item.quantity}</Text>
                 </View>
+
                 <View style={styles.tableCell_3}>
                   <Text>{item.price}</Text>
                 </View>
+
                 <View style={[styles.tableCell_3, styles.alignRight]}>
-                  <Text>{fCurrency(item.price * item.qty)}</Text>
+                  <Text>{fCurrency(item.price * item.quantity)}</Text>
                 </View>
               </View>
             ))}
@@ -99,7 +127,7 @@ export default function InvoicePDF({ invoice }) {
                 <Text>Subtotal</Text>
               </View>
               <View style={[styles.tableCell_3, styles.alignRight]}>
-                <Text>{fCurrency(subTotal)}</Text>
+                <Text>{fCurrency(subTotalPrice)}</Text>
               </View>
             </View>
 
@@ -135,7 +163,7 @@ export default function InvoicePDF({ invoice }) {
                 <Text style={styles.h4}>Total</Text>
               </View>
               <View style={[styles.tableCell_3, styles.alignRight]}>
-                <Text style={styles.h4}>{fCurrency(total)}</Text>
+                <Text style={styles.h4}>{fCurrency(totalPrice)}</Text>
               </View>
             </View>
           </View>

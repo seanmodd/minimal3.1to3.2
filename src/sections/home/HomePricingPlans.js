@@ -24,6 +24,7 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 export default function HomePricingPlans() {
   const theme = useTheme();
+
   const isLight = theme.palette.mode === 'light';
 
   return (

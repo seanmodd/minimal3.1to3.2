@@ -22,12 +22,12 @@ import { FormProvider, RHFSelect, RHFSwitch, RHFTextField, RHFUploadAvatar } fro
 
 // ----------------------------------------------------------------------
 
-UserNewForm.propTypes = {
+UserNewEditForm.propTypes = {
   isEdit: PropTypes.bool,
   currentUser: PropTypes.object,
 };
 
-export default function UserNewForm({ isEdit = false, currentUser }) {
+export default function UserNewEditForm({ isEdit = false, currentUser }) {
   const { push } = useRouter();
 
   const { enqueueSnackbar } = useSnackbar();

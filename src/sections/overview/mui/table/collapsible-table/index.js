@@ -30,7 +30,7 @@ export function createData(name, calories, fat, carbs, protein, price) {
   };
 }
 
-const COLLAPSIBLE_TABLE = [
+const TABLE_DATA = [
   createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
   createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
   createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
@@ -54,7 +54,7 @@ export default function CollapsibleTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {COLLAPSIBLE_TABLE.map((row) => (
+            {TABLE_DATA.map((row) => (
               <CollapsibleTableRow key={row.name} row={row} />
             ))}
           </TableBody>

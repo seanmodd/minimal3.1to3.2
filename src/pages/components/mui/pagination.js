@@ -38,6 +38,7 @@ MUIPagination.getLayout = function getLayout(page) {
 
 export default function MUIPagination() {
   const [page, setPage] = useState(2);
+
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {

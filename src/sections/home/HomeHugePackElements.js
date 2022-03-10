@@ -1,11 +1,7 @@
 import { m } from 'framer-motion';
-// next
-import NextLink from 'next/link';
 // @mui
 import { alpha, useTheme, styled } from '@mui/material/styles';
 import { Box, Grid, Button, Container, Typography } from '@mui/material';
-// routes
-import { PATH_PAGE } from '../../routes/paths';
 // components
 import Image from '../../components/Image';
 import { MotionViewport, varFade } from '../../components/animate';
@@ -72,11 +68,15 @@ const variantScreenRight = {
 
 export default function HomeHugePackElements() {
   const theme = useTheme();
+
   const isLight = theme.palette.mode === 'light';
+
   const isRTL = theme.direction === 'rtl';
 
   const screenLeftAnimate = variantScreenLeft;
+
   const screenCenterAnimate = variantScreenCenter;
+
   const screenRightAnimate = variantScreenRight;
 
   return (
@@ -86,11 +86,7 @@ export default function HomeHugePackElements() {
           <Grid item xs={12} md={4} sx={{ display: 'flex', alignItems: 'center' }}>
             <ContentStyle>
               <m.div variants={varFade().inUp}>
-                <Typography
-                  component="div"
-                  variant="overline"
-                  sx={{ mb: 2, color: 'text.disabled' }}
-                >
+                <Typography component="div" variant="overline" sx={{ mb: 2, color: 'text.disabled' }}>
                   Interface Starter Kit
                 </Typography>
               </m.div>
@@ -109,17 +105,21 @@ export default function HomeHugePackElements() {
                     color: isLight ? 'text.secondary' : 'common.white',
                   }}
                 >
-                  We collected most popular elements. Menu, sliders, buttons, inputs etc. are all
-                  here. Just dive in!
+                  We collected most popular elements. Menu, sliders, buttons, inputs etc. are all here. Just dive in!
                 </Typography>
               </m.div>
 
               <m.div variants={varFade().inUp}>
-                <NextLink href={PATH_PAGE.components} passHref>
-                  <Button size="large" color="inherit" variant="outlined">
-                    View All Components
-                  </Button>
-                </NextLink>
+                <Button
+                  size="large"
+                  color="inherit"
+                  variant="outlined"
+                  target="_blank"
+                  rel="noopener"
+                  href="https://www.minimals.cc/components/"
+                >
+                  View All Components
+                </Button>
               </m.div>
             </ContentStyle>
           </Grid>

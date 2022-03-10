@@ -35,7 +35,9 @@ FoundationColors.getLayout = function getLayout(page) {
 
 export default function FoundationColors() {
   const theme = useTheme();
+
   const { enqueueSnackbar } = useSnackbar();
+
   const [, setState] = useState(null);
 
   const onCopy = (color) => {

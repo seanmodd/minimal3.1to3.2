@@ -39,6 +39,7 @@ function countryToFlag(isoCode) {
 
 export default function MUIAutocomplete() {
   const [value, setValue] = useState(options[0]);
+
   const [inputValue, setInputValue] = useState('');
 
   return (

@@ -35,6 +35,7 @@ ResetPassword.getLayout = function getLayout(page) {
 
 export default function ResetPassword() {
   const [email, setEmail] = useState('');
+
   const [sent, setSent] = useState(false);
 
   return (

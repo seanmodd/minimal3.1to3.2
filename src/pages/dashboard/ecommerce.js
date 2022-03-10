@@ -30,6 +30,7 @@ GeneralEcommerce.getLayout = function getLayout(page) {
 
 export default function GeneralEcommerce() {
   const theme = useTheme();
+
   const { themeStretch } = useSettings();
 
   return (
